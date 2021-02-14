@@ -5,14 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.popupmc</groupId>
-    <artifactId>AprilFoolsDay</artifactId>
-    <version>1.0</version>
+    <artifactId>PMCAprilFoolsDay</artifactId>
+    <version>1.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
+        <finalName>${project.artifactId}(${project.version})</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -5,26 +5,94 @@ import com.comphenix.protocol.ProtocolManager;
 import com.popupmc.aprilfoolsday.commands.OnToggleJokeCommand;
 import com.popupmc.aprilfoolsday.events.OnPlayerJoinEvent;
 import com.popupmc.aprilfoolsday.packets.*;
+import com.popupmc.aprilfoolsday.settings.Settings;
+import com.popupmc.aprilfoolsday.utils.YamlFile;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Objects;
+public final class AprilFoolsDay extends JavaPlugin {
 
-public class AprilFoolsDay extends JavaPlugin {
+    private YamlFile configYaml = null;
+    private Settings settings;
+
+    /**
+     * Sends a message to the console.
+     * @param msg The message to be sent.
+     */
+    private void send(String msg){
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&f[&6AprilFools&f]" +" "+msg));
+    }
+
+    /**
+     * Plugin enable logic.
+     */
     @Override
     public void onEnable() {
+        send("&fStatus: &aEnabled");
+        send("&6AprilFoolsDay &fby junebug12851 and lelesape");
+        //TODO: Discord invitation link
+        send("&fJoin PopUpMC discord server here: &c");
+        reloadConfig();
+        this.settings = new Settings(this);
+        registerEvents();
+        registerCommands();
+        registerPacketListeners();
+    }
 
+
+    /**
+     * Plugin disable logic.
+     */
+    @Override
+    public void onDisable() {
+        send("&fStatus: &cDisabled&f. Thank you for using this plugin.");
+        send("&6AprilFoolsDay &fby junebug12851 and lelesape");
+        //TODO: Discord invitation link
+        send("&fJoin PopUpMC discord server here: &c");
+    }
+
+
+
+
+    /**
+     * Registers event listeners.
+     */
+    private void registerEvents(){
         // Setup event listeners
         Bukkit.getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
+    }
+
+    /**
+     * Tries to register plugin commands.
+     */
+    private void registerCommands(){
+        PluginCommand toggleJoke = getCommand("toggle-joke");
+        PluginCommand spawnHerobrine = getCommand("afd-spawn");
+
+        if(toggleJoke == null || spawnHerobrine == null){
+            send("&cERROR: Commands not registered properly, please check your plugin.yml inside ApriFools' jar is intact.");
+            send("&cDisabling AprilFoolsDay...");
+            this.setEnabled(false);
+            return;
+        }
+
+        // Allow user to toggle joke
+        toggleJoke.setExecutor(new OnToggleJokeCommand());
 
         // Setup Command Code
         // Debug command to spawn fake herobrine player
         // doesnt work though, trying to work with people to figure out why
-        //Objects.requireNonNull(this.getCommand("afd-spawn")).setExecutor(new OnFakePlayerCommand());
+        //spawnHerobrine.setExecutor(new OnFakePlayerCommand());
 
-        // Allow user to toggle joke
-        Objects.requireNonNull(this.getCommand("toggle-joke")).setExecutor(new OnToggleJokeCommand());
+    }
 
+
+    /**
+     * Registers ProtocolLib's packet listeners.
+     */
+    private void registerPacketListeners(){
         // Grab Protocol Manager
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
@@ -69,14 +137,26 @@ public class AprilFoolsDay extends JavaPlugin {
         // Muck around with block data sent to clients
         // No Human on earth can figure this bull@!##! out
         // manager.addPacketListener(new CartoonyBlocks(this));
-
-        // Log enabled status
-        getLogger().info("AprilFoolsDay is enabled.");
     }
 
-    // Log disabled status
-    @Override
-    public void onDisable() {
-        getLogger().info("AprilFoolsDay is disabled");
+    /**
+     * Loads/Reloads the config file.
+     */
+    public void reloadConfig() {
+        this.configYaml = new YamlFile(this, "config.yml");
     }
+
+    /**
+     * Gets the YamlFile object containing the FileConfiguration config object.
+     * @return A YamlFile object containing the config file.
+     */
+    public YamlFile getConfigYaml(){
+        return this.configYaml;
+    }
+
+    public Settings getSettings(){
+        return this.settings;
+    }
+
+
 }

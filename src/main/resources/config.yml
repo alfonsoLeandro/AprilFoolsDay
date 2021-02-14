@@ -1,0 +1,97 @@
+# When the player has the joke enabled, send a resourcepack?
+# sha1 is optional but reccomended for security, optimization, and bandwidth
+resource-pack:
+  resource-pack-url: #TODO
+  resource-pack-sha1: #TODO
+
+# Joke Message
+# Tells players the joke is enabled or disabled and that they can toggle with a command
+# If the command is enabled and they have permission
+status-message:
+  enabled: true #TODO
+  delay: 1s #TODO
+
+# Allow players and staff to toggle the joke for themselves and others
+# afd.toggle.self & afd.toggle.others
+toggle-command:
+  enabled: true #TODO
+
+  # Things may get weird or glitchy if this is disabled
+  # Its reccomended to kick the player so they can re-login when toggled.
+  kick-on-toggle: true #TODO
+
+  # When a mod or admin toggles the joke for players
+  # If set to true will mention the name of the mod or admin that toggled
+  # them
+  mention-toggle-name: true #TODO
+
+# Who experiences the joke by default, or everyone?
+# Note, even for defaults, it can be toggled if that's enabled
+joke-defaults:
+  # If false, everyone experiences it by default
+  # If true, it's permission based
+  use-defaults: true #TODO
+
+  # If enabled, afd.bypass permission will disable joke by default
+  permission-bypass: true #TODO
+
+  # If true, ops will bypass by default
+  op-bypass: true #TODO
+
+  # For regular players it's bypassed by default
+  # This is handy if you want to keep the plugin but it's after
+  # April Fools so you want it disabled by default for everyone
+  other-bypass: false #TODO
+
+# Corrupt y position of entities
+corrupt-position:
+  # Chance a position packet will get corrupted
+  # Be careful not to set this too high
+  # or the client and server will get too far out of sync
+  percent-chance: 10 #TODO
+
+  # Percent of corruption relative to a block
+  # Be careful not to set this too high
+  # or the client and server will get too far out of sync
+  amount-percent: 0.25 #TODO
+
+# Corrupt entity rotation
+corrupt-rotation:
+  # Between 0-90
+  # 0 being none and 90 being max
+  # Head angle corruption
+  head-angle: 90 #TODO
+
+  # Between 0-127
+  # 0 being none and 127 being max
+  # Body rotation corruption
+  body-rotation: 127 #TODO
+
+# display all paintings as a single one
+single-paintings: creeper #TODO
+
+# Tells the client instant respawn is enabled when it's really not
+# If you enable this make sure your anti-cheat won't
+# freakout
+fake-quick-respawn: true #TODO
+
+# Tells the client that they are seemingly always in a particular world type
+# no matter where they go
+single-world-type: nether #TODO
+
+# Tells the client they are always in a flat world
+# It affects shading and fog at certain y-levels and distance
+fake-flat-world: true #TODO
+
+# Plays the wrong animations
+# Anytime a player animation needs to occur (taking damage, swinging a sword)
+# It'll be overwritten with this animation
+play-wrong-animations: off-hand swing #TODO
+
+# All mobs (non-players) will appear as this
+single-entity: creeper #TODO
+
+# If set, some entities will be omitted to the client
+# meaning the client will have no idea they exist
+# and wont be able to see them at all
+missing-entities-percent: 10 #TODO

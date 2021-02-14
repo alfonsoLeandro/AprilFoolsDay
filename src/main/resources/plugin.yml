@@ -1,8 +1,8 @@
-name: AprilFoolsDay
-version: 1.0
+name: PMCAprilFoolsDay
+version: ${project.version}
 main: com.popupmc.aprilfoolsday.AprilFoolsDay
-description: AprilFoolsDay
-author: junebug12851
+description: A purely cosmetic plugin that modifies quite a lot of packets to the client for funny and sometimes mildly annoying effects. Planned to be enabled by default for non-moderators and non-admins but to allow anyone to toggle it.
+authors: [junebug12851,lelesape]
 api-version: 1.15
 depend:
   - ProtocolLib
