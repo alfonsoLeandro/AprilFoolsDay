@@ -1,39 +1,38 @@
+# Plugin prefix for in-game and console logs/messages.
+prefix: '&f[&6AprilFools&f]'
+
 # When the player has the joke enabled, send a resourcepack?
-# sha1 is optional but reccomended for security, optimization, and bandwidth
+# sha1 is optional but recommended for security, optimization, and bandwidth
 resource-pack:
-  resource-pack-url: #TODO
-  resource-pack-sha1: #TODO
+  url: ""
+  sha1: ""
 
 # Joke Message
 # Tells players the joke is enabled or disabled and that they can toggle with a command
 # If the command is enabled and they have permission
-status-message:
-  enabled: true #TODO
-  delay: 1s #TODO
+# Available time units: ticks(T), seconds(S)
+status message:
+  enabled: true
+  delay: 1S
 
 # Allow players and staff to toggle the joke for themselves and others
-# afd.toggle.self & afd.toggle.others
-toggle-command:
-  enabled: true #TODO
+# aprilFools.toggle.self and aprilFools.toggle.others
+toggle command:
+  enabled: true
 
   # Things may get weird or glitchy if this is disabled
-  # Its reccomended to kick the player so they can re-login when toggled.
-  kick-on-toggle: true #TODO
-
-  # When a mod or admin toggles the joke for players
-  # If set to true will mention the name of the mod or admin that toggled
-  # them
-  mention-toggle-name: true #TODO
+  # Its recommended to kick the player so they can re-login when toggled.
+  kick on toggle: true
 
 # Who experiences the joke by default, or everyone?
 # Note, even for defaults, it can be toggled if that's enabled
-joke-defaults:
+joke defaults:
   # If false, everyone experiences it by default
   # If true, it's permission based
-  use-defaults: true #TODO
+  use defaults: true
 
   # If enabled, afd.bypass permission will disable joke by default
-  permission-bypass: true #TODO
+  permission bypass: true #TODO
 
   # If true, ops will bypass by default
   op-bypass: true #TODO

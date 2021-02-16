@@ -8,9 +8,24 @@ depend:
   - ProtocolLib
 
 commands:
-  afd-spawn:
-    description: AprilFoolsDay Spawn (A debugging command for expiremental functionality)
-    usage: /afd-spawn
+  aprilFoolsDay:
+    description: AprilFoolsDay main command.
+    aliases: [afd]
+    usage: Command was not registered properly.
   toggle-joke:
-    description: OnToggleJokeCommand April Fools Day Joke
+    description: OnToggleJokeCommand April Fools Day Joke.
     usage: /toggle-joke
+
+permissions:
+  aprilFools.version:
+    description: Allows you to checck the plugin's current version.
+    default: op
+  aprilFools.reload:
+    description: Allows you to reload the plugin and its files.
+    default: op
+  aprilFools.toggle.self:
+    description: Allows a player to toggle their own joke status.
+    default: op
+  aprilFools.toggle.others:
+    description: Allows a player to toggle another player's joke status.
+    default: op

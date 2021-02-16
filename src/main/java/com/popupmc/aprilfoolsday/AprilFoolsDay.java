@@ -2,7 +2,10 @@ package com.popupmc.aprilfoolsday;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.popupmc.aprilfoolsday.commands.OnToggleJokeCommand;
+import com.popupmc.aprilfoolsday.commands.MainCommand;
+import com.popupmc.aprilfoolsday.events.PlayerJoin;
+import com.popupmc.aprilfoolsday.utils.Reloadable;
+import com.popupmc.aprilfoolsday.commands.ToggleJokeCommand;
 import com.popupmc.aprilfoolsday.events.OnPlayerJoinEvent;
 import com.popupmc.aprilfoolsday.packets.*;
 import com.popupmc.aprilfoolsday.settings.Settings;
@@ -10,12 +13,18 @@ import com.popupmc.aprilfoolsday.utils.YamlFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public final class AprilFoolsDay extends JavaPlugin {
 
-    private YamlFile configYaml = null;
+    private YamlFile configYaml;
+    private YamlFile messagesYaml;
     private Settings settings;
+    final private Set<Reloadable> reloadables = new HashSet<>();
 
     /**
      * Sends a message to the console.
@@ -32,10 +41,11 @@ public final class AprilFoolsDay extends JavaPlugin {
     public void onEnable() {
         send("&fStatus: &aEnabled");
         send("&6AprilFoolsDay &fby junebug12851 and lelesape");
-        //TODO: Discord invitation link
-        send("&fJoin PopUpMC discord server here: &c");
-        reloadConfig();
+        send("&fJoin PopUpMC discord server here: &chttps://discord.gg/ru3Hk9Vfny");
         this.settings = new Settings(this);
+        reloadables.add(settings);
+        reloadConfig();
+        reloadMessages();
         registerEvents();
         registerCommands();
         registerPacketListeners();
@@ -49,8 +59,7 @@ public final class AprilFoolsDay extends JavaPlugin {
     public void onDisable() {
         send("&fStatus: &cDisabled&f. Thank you for using this plugin.");
         send("&6AprilFoolsDay &fby junebug12851 and lelesape");
-        //TODO: Discord invitation link
-        send("&fJoin PopUpMC discord server here: &c");
+        send("&fJoin PopUpMC discord server here: &chttps://discord.gg/ru3Hk9Vfny");
     }
 
 
@@ -60,8 +69,8 @@ public final class AprilFoolsDay extends JavaPlugin {
      * Registers event listeners.
      */
     private void registerEvents(){
-        // Setup event listeners
-        Bukkit.getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new PlayerJoin(this), this);
     }
 
     /**
@@ -69,17 +78,25 @@ public final class AprilFoolsDay extends JavaPlugin {
      */
     private void registerCommands(){
         PluginCommand toggleJoke = getCommand("toggle-joke");
-        PluginCommand spawnHerobrine = getCommand("afd-spawn");
+        PluginCommand mainCommand = getCommand("aprilFoolsDay");
 
-        if(toggleJoke == null || spawnHerobrine == null){
+        if(toggleJoke == null || mainCommand == null){
             send("&cERROR: Commands not registered properly, please check your plugin.yml inside ApriFools' jar is intact.");
             send("&cDisabling AprilFoolsDay...");
             this.setEnabled(false);
             return;
         }
 
+        // Main command executor
+        MainCommand mc = new MainCommand(this);
+        mainCommand.setExecutor(mc);
+        reloadables.add(mc);
+
         // Allow user to toggle joke
-        toggleJoke.setExecutor(new OnToggleJokeCommand());
+        ToggleJokeCommand tjk = new ToggleJokeCommand(this);
+        toggleJoke.setExecutor(tjk);
+        reloadables.add(tjk);
+
 
         // Setup Command Code
         // Debug command to spawn fake herobrine player
@@ -140,10 +157,26 @@ public final class AprilFoolsDay extends JavaPlugin {
     }
 
     /**
+     * Reloads the plugin.
+     */
+    public void reload(){
+        this.reloadMessages();
+        this.reloadConfig();
+        for(Reloadable rl : reloadables) rl.reload();
+    }
+
+    /**
      * Loads/Reloads the config file.
      */
     public void reloadConfig() {
         this.configYaml = new YamlFile(this, "config.yml");
+    }
+
+    /**
+     * Loads/Reloads the messages file.
+     */
+    public void reloadMessages() {
+        this.messagesYaml = new YamlFile(this, "messages.yml");
     }
 
     /**
@@ -152,6 +185,14 @@ public final class AprilFoolsDay extends JavaPlugin {
      */
     public YamlFile getConfigYaml(){
         return this.configYaml;
+    }
+
+    /**
+     * Gets the YamlFile object containing the FileConfiguration messages object.
+     * @return A YamlFile object containing the messages file.
+     */
+    public YamlFile getMessagesYaml(){
+        return this.messagesYaml;
     }
 
     public Settings getSettings(){
