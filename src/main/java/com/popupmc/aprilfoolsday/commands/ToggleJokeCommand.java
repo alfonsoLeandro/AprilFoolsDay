@@ -121,4 +121,22 @@ public class ToggleJokeCommand implements CommandExecutor, Reloadable {
     public static boolean getJokeStatus(String playerName){
         return jokeStatus.get(playerName);
     }
+
+    /**
+     * Checks whether the given player status has already been registered.
+     * @param playerName The player to check the joke status for.
+     * @return True if the player-boolean map contains the player status.
+     */
+    public static boolean statusContainsPlayer(String playerName){
+        return jokeStatus.containsKey(playerName);
+    }
+
+    /**
+     * Puts a player in the player-boolean status map.
+     * @param playerName The player to put in the map.
+     * @param value The value to be set.
+     */
+    public static void putPlayerStatus(String playerName, boolean value){
+        jokeStatus.put(playerName, value);
+    }
 }

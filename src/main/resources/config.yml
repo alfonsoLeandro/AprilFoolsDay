@@ -27,20 +27,13 @@ toggle command:
 # Who experiences the joke by default, or everyone?
 # Note, even for defaults, it can be toggled if that's enabled
 joke defaults:
-  # If false, everyone experiences it by default
-  # If true, it's permission based
-  use defaults: true
 
-  # If enabled, afd.bypass permission will disable joke by default
-  permission bypass: true #TODO
+  # The default status for players joining the server that are not op and don't have
+  # the aprilFools.default.bypass permission.
+  default status: true
 
-  # If true, ops will bypass by default
-  op-bypass: true #TODO
-
-  # For regular players it's bypassed by default
-  # This is handy if you want to keep the plugin but it's after
-  # April Fools so you want it disabled by default for everyone
-  other-bypass: false #TODO
+  # If true, ops' status will be set to false.
+  op bypass: true
 
 # Corrupt y position of entities
 corrupt-position:

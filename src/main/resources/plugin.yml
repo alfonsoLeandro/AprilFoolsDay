@@ -29,3 +29,6 @@ permissions:
   aprilFools.toggle.others:
     description: Allows a player to toggle another player's joke status.
     default: op
+  aprilFools.default.bypass:
+    description: Allows a player to bypass the joke default status.
+    default: op

@@ -19,6 +19,7 @@ public class Settings implements Reloadable {
     private boolean kickOnToggle;
     private boolean statusMessageEnabled;
     private boolean jokeDefaultStatus;
+    private boolean opBypass;
     private int statusMessageDelayTicks;
     private String resourcePackUrl;
     private String resourcePackSha1;
@@ -35,7 +36,8 @@ public class Settings implements Reloadable {
         this.toggleCommandEnabled = config.getBoolean("toggle command.enabled");
         this.kickOnToggle = config.getBoolean("toggle command.kick on toggle");
         this.statusMessageEnabled = config.getBoolean("status message.enabled");
-        this.jokeDefaultStatus = config.getBoolean("");
+        this.jokeDefaultStatus = config.getBoolean("joke status.default status");
+        this.opBypass = config.getBoolean("joke status.op bypass");
 
         String delayString = config.getString("status message.delay");
         this.statusMessageDelayTicks = delayString == null ? 0 : TimeUnit.getTicks(Integer.parseInt(delayString.substring(delayString.length())), delayString.charAt(delayString.length()-1));
@@ -63,6 +65,14 @@ public class Settings implements Reloadable {
 
     public boolean isStatusMessageEnabled(){
         return this.statusMessageEnabled;
+    }
+
+    public boolean jokeDefaultStatus(){
+        return this.jokeDefaultStatus;
+    }
+
+    public boolean isOpBypass(){
+        return this.opBypass;
     }
 
 

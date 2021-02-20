@@ -1,6 +1,7 @@
 package com.popupmc.aprilfoolsday.events;
 
 import com.popupmc.aprilfoolsday.AprilFoolsDay;
+import com.popupmc.aprilfoolsday.commands.ToggleJokeCommand;
 import com.popupmc.aprilfoolsday.settings.Settings;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -29,26 +30,45 @@ public class PlayerJoin implements Listener {
 
         //Resource pack
         String resourcePackUrl = settings.getResourcePackUrl();
-        if(resourcePackUrl != null && !resourcePackUrl.equalsIgnoreCase("")){
+        if(isNotNullOrEmpty(resourcePackUrl)){
             String sha1 = settings.getResourcePackSha1();
-            if(sha1 != null && !sha1.equalsIgnoreCase("")){
+            if(isNotNullOrEmpty(sha1)){
                 player.setResourcePack(resourcePackUrl, sha1);
             }else{
                 player.setResourcePack(resourcePackUrl);
             }
         }
 
+        //Get the status
+        boolean status;
+        if(ToggleJokeCommand.statusContainsPlayer(player.getName())){
+            status = ToggleJokeCommand.getJokeStatus(player.getName());
+        }else{
+            if((player.isOp() && settings.isOpBypass()) || player.hasPermission("aprilFools.default.bypass")){
+                status = false;
+            }else {
+                status = settings.jokeDefaultStatus();
+                ToggleJokeCommand.putPlayerStatus(player.getName(), status);
+            }
+        }
+
+
+        //Status message
         if(settings.isStatusMessageEnabled()){
             new BukkitRunnable(){
-
                 @Override
                 public void run(){
-                    //TODO
-                    send(player, plugin.getMessagesYaml().getAccess().getString(""));
+                    send(player, plugin.getMessagesYaml().getAccess().getString(status ? "status enabled" : "status disabled"));
                 }
 
             }.runTaskLater(plugin, settings.getStatusMessageDelayTicks());
+
         }
+    }
+
+
+    private boolean isNotNullOrEmpty(String string){
+        return string != null && !string.equalsIgnoreCase("");
     }
 
 }
