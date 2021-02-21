@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.popupmc.aprilfoolsday.AprilFoolsDay;
-import com.popupmc.aprilfoolsday.commands.OnToggleJokeCommand;
+import com.popupmc.aprilfoolsday.commands.ToggleJokeCommand;
 
 public class ReverseBlockBreak extends PacketAdapter {
     public ReverseBlockBreak(AprilFoolsDay plugin) {
@@ -16,8 +16,8 @@ public class ReverseBlockBreak extends PacketAdapter {
     public void onPacketSending(PacketEvent event) {
 
         // If disabled for this player do nothing, stop here
-        if(!OnToggleJokeCommand.getStatus(event.getPlayer()))
-            return;
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())
+        || ((AprilFoolsDay)plugin).getSettings().isReverseBlockBreakDisabled()) return;
 
         // Get Packet
         PacketContainer packet = event.getPacket();

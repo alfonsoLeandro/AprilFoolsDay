@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.popupmc.aprilfoolsday.AprilFoolsDay;
-import com.popupmc.aprilfoolsday.commands.OnToggleJokeCommand;
+import com.popupmc.aprilfoolsday.commands.ToggleJokeCommand;
 
 public class GameStateModifications extends PacketAdapter {
     public GameStateModifications(AprilFoolsDay plugin) {
@@ -15,8 +15,7 @@ public class GameStateModifications extends PacketAdapter {
     @Override
     public void onPacketSending(PacketEvent event) {
         // If disabled for this player do nothing, stop here
-        if(!OnToggleJokeCommand.getStatus(event.getPlayer()))
-            return;
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())) return;
 
         PacketContainer packet = event.getPacket();
 
@@ -30,7 +29,7 @@ public class GameStateModifications extends PacketAdapter {
             event.setCancelled(true);
 
         // If Quick Respawn changes ensure it remains enabled
-        else if(reason == 11)
+        else if(reason == 11 || ((AprilFoolsDay)plugin).getSettings().isQuickRespawnEnabled())
             packet.getFloat().write(0, 1f);
     }
 }

@@ -5,51 +5,47 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.popupmc.aprilfoolsday.AprilFoolsDay;
-import com.popupmc.aprilfoolsday.commands.OnToggleJokeCommand;
+import com.popupmc.aprilfoolsday.commands.ToggleJokeCommand;
+import com.popupmc.aprilfoolsday.settings.Settings;
 import org.bukkit.entity.Player;
 
 import java.util.Random;
 
 public class CorruptPosition extends PacketAdapter {
+
+    private final Random random;
+
     public CorruptPosition(AprilFoolsDay plugin) {
         super(plugin, PacketType.Play.Server.REL_ENTITY_MOVE);
+        random = new Random();
     }
 
     @Override
     public void onPacketSending(PacketEvent event) {
-        PacketContainer packet = event.getPacket();
         Player player = event.getPlayer();
+        Settings settings = ((AprilFoolsDay)plugin).getSettings();
 
         // If disabled for this player do nothing, stop here
-        if(!OnToggleJokeCommand.getStatus(player))
-            return;
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())
+        || settings.isCorruptPositionDisabled()) return;
+
+        PacketContainer packet = event.getPacket();
 
         // Exclude the player by comparing entity ids
         if(packet.getIntegers().read(0) == player.getEntityId())
             return;
 
         // 10% chance of slightly corrupting y
-        if(random.nextInt(100) <= yChance) {
+        if(random.nextInt(100) <= settings.getCorruptPositionYChance()) {
 
             // Get Current Y Delta
             short curY = packet.getShorts().read(1);
 
             // Add or subtract noise
             if(random.nextBoolean())
-                packet.getShorts().write(1, (short) (curY + yNoise));
+                packet.getShorts().write(1, (short) (curY + settings.getCorruptPositionYAmount()));
             else
-                packet.getShorts().write(1, (short) (curY - yNoise));
+                packet.getShorts().write(1, (short) (curY - settings.getCorruptPositionYAmount()));
         }
     }
-
-    Random random = new Random();
-
-    // A full block in delta values
-    final static short fullBlock = 4096;
-
-    // yNoise Range 1/4 block
-    final static short yNoise = (short)(fullBlock * 0.25);
-
-    // 10% chance of corruption
-    final static int yChance = 10;
 }

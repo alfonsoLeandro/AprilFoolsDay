@@ -5,7 +5,8 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.popupmc.aprilfoolsday.AprilFoolsDay;
-import com.popupmc.aprilfoolsday.commands.OnToggleJokeCommand;
+import com.popupmc.aprilfoolsday.commands.ToggleJokeCommand;
+import com.popupmc.aprilfoolsday.settings.Settings;
 import org.bukkit.entity.Player;
 
 public class SingleAnimation extends PacketAdapter {
@@ -15,18 +16,20 @@ public class SingleAnimation extends PacketAdapter {
 
     @Override
     public void onPacketSending(PacketEvent event) {
-        PacketContainer packet = event.getPacket();
         Player player = event.getPlayer();
+        Settings settings = ((AprilFoolsDay)plugin).getSettings();
 
         // If disabled for this player do nothing, stop here
-        if(!OnToggleJokeCommand.getStatus(player))
-            return;
+        if(!ToggleJokeCommand.getJokeStatus(player.getName())
+        || settings.isSingleAnimationDisabled()) return;
+
+        PacketContainer packet = event.getPacket();
 
         // Exclude the player by comparing entity ids
         if(packet.getIntegers().read(0) == player.getEntityId())
             return;
 
         // All animations are off-hand arm swing
-        packet.getIntegers().write(1, 3);
+        packet.getIntegers().write(1, settings.getAnimation().getId());
     }
 }

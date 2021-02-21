@@ -6,7 +6,6 @@ import com.popupmc.aprilfoolsday.commands.MainCommand;
 import com.popupmc.aprilfoolsday.events.PlayerJoin;
 import com.popupmc.aprilfoolsday.utils.Reloadable;
 import com.popupmc.aprilfoolsday.commands.ToggleJokeCommand;
-import com.popupmc.aprilfoolsday.events.OnPlayerJoinEvent;
 import com.popupmc.aprilfoolsday.packets.*;
 import com.popupmc.aprilfoolsday.settings.Settings;
 import com.popupmc.aprilfoolsday.utils.YamlFile;
@@ -142,7 +141,7 @@ public final class AprilFoolsDay extends JavaPlugin {
         manager.addPacketListener(new CorruptPosition(this));
 
         // All paintings are creeper paintings
-        manager.addPacketListener(new CreeperPaintings(this));
+        manager.addPacketListener(new SinglePaintings(this));
 
         // All animations are off-hand arm swings
         manager.addPacketListener(new SingleAnimation(this));
