@@ -69,12 +69,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>16.0.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.dmulloy2</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>4.6.0</version>

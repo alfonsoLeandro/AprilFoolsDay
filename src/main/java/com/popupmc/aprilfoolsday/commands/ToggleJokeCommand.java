@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +56,7 @@ public class ToggleJokeCommand implements CommandExecutor, Reloadable {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
        if(!plugin.getSettings().isToggleCommandEnabled()){
            send(sender, toggleCommandIsDisabled);
            return true;
