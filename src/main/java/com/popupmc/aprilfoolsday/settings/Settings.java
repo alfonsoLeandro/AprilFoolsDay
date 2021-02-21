@@ -82,8 +82,7 @@ public class Settings implements Reloadable {
         this.corruptPositionYChance = config.getInt("corrupt position.chance");
         this.corruptPositionYAmount = config.getInt("corrupt position.amount")*4096;
         String delayString = config.getString("status message.delay");
-        Bukkit.getConsoleSender().sendMessage(delayString+"");
-        this.statusMessageDelayTicks = delayString == null || delayString.equalsIgnoreCase("") ? 0 : TimeUnit.getTicks(Integer.parseInt(delayString.substring(delayString.length())), delayString.charAt(delayString.length()-1));
+        this.statusMessageDelayTicks = delayString == null || delayString.equalsIgnoreCase("") ? 0 : TimeUnit.getTicks(Integer.parseInt(delayString.substring(0, delayString.length()-1)), delayString.charAt(delayString.length()-1));
         this.entityId = config.getInt("single-entity.entity");
         this.entityChance = config.getInt("single-entity.entity");
 
