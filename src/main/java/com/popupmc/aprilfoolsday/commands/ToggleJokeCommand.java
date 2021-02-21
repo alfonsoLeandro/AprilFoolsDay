@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,7 @@ public class ToggleJokeCommand implements CommandExecutor, Reloadable {
 
     public ToggleJokeCommand(AprilFoolsDay plugin){
         this.plugin = plugin;
+        loadMessages();
     }
 
     private void loadMessages(){
@@ -57,41 +59,41 @@ public class ToggleJokeCommand implements CommandExecutor, Reloadable {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-       if(!plugin.getSettings().isToggleCommandEnabled()){
-           send(sender, toggleCommandIsDisabled);
-           return true;
-       }
+        if(!plugin.getSettings().isToggleCommandEnabled()){
+            send(sender, toggleCommandIsDisabled);
+            return true;
+        }
 
 
         if(args.length > 0){
-           if(!sender.hasPermission("aprilFools.toggle.others")){
-               send(sender, noPerm);
-               return true;
-           }
-           Player toToggle = Bukkit.getPlayer(args[0]);
-           if(toToggle == null){
-               send(sender, notOnline);
-               return true;
-           }
-           toggle(sender, toToggle);
-           send(sender, jokeStatus.get(args[0]) ? enabledForPlayer.replace("%player%", args[0]) : disabledForPlayer.replace("%player%", args[0]));
+            if(!sender.hasPermission("aprilFools.toggle.others")){
+                send(sender, noPerm);
+                return true;
+            }
+            Player toToggle = Bukkit.getPlayer(args[0]);
+            if(toToggle == null){
+                send(sender, notOnline);
+                return true;
+            }
+            toggle(sender, toToggle);
+            send(sender, jokeStatus.get(args[0]) ? enabledForPlayer.replace("%player%", args[0]) : disabledForPlayer.replace("%player%", args[0]));
 
 
-       }else{
-           if(sender instanceof ConsoleCommandSender){
-               send(sender, cannotToggle);
-               return true;
-           }
-           if(!sender.hasPermission("aprilFools.toggle.self")){
-               send(sender, noPerm);
-               return true;
-           }
-           toggle(sender, (Player) sender);
+        }else{
+            if(sender instanceof ConsoleCommandSender){
+                send(sender, cannotToggle);
+                return true;
+            }
+            if(!sender.hasPermission("aprilFools.toggle.self")){
+                send(sender, noPerm);
+                return true;
+            }
+            toggle(sender, (Player) sender);
 
 
-       }
+        }
 
-       return true;
+        return true;
     }
 
     private void toggle(CommandSender toggler, Player toToggle){
@@ -114,11 +116,22 @@ public class ToggleJokeCommand implements CommandExecutor, Reloadable {
 
     /**
      * Gets the joke status of a given player.
-     * @param playerName The player to check the joke status for.
+     * @param player The player to check the joke status for.
      * @return True if the joke is enabled for the player.
      */
-    public static boolean getJokeStatus(String playerName){
-        return jokeStatus.get(playerName);
+    public static boolean getJokeStatus(Player player){
+        if(!jokeStatus.containsKey(player.getName())) {
+            Settings settings = JavaPlugin.getPlugin(AprilFoolsDay.class).getSettings();
+            boolean status;
+            if((player.isOp() && settings.isOpBypass()) || player.hasPermission("aprilFools.default.bypass")) {
+                status = false;
+            } else {
+                status = settings.jokeDefaultStatus();
+            }
+            putPlayerStatus(player.getName(), status);
+        }
+        return jokeStatus.get(player.getName());
+
     }
 
     /**

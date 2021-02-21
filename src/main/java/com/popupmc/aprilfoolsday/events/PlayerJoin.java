@@ -42,14 +42,14 @@ public class PlayerJoin implements Listener {
         //Get the status
         boolean status;
         if(ToggleJokeCommand.statusContainsPlayer(player.getName())){
-            status = ToggleJokeCommand.getJokeStatus(player.getName());
+            status = ToggleJokeCommand.getJokeStatus(player);
         }else{
             if((player.isOp() && settings.isOpBypass()) || player.hasPermission("aprilFools.default.bypass")){
                 status = false;
             }else {
                 status = settings.jokeDefaultStatus();
-                ToggleJokeCommand.putPlayerStatus(player.getName(), status);
             }
+            ToggleJokeCommand.putPlayerStatus(player.getName(), status);
         }
 
 
