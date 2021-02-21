@@ -41,9 +41,9 @@ public final class AprilFoolsDay extends JavaPlugin {
         send("&fStatus: &aEnabled");
         send("&6AprilFoolsDay &fby junebug12851 and lelesape");
         send("&fJoin PopUpMC discord server here: &chttps://discord.gg/ru3Hk9Vfny");
+        reloadConfig();
         this.settings = new Settings(this);
         reloadables.add(settings);
-        reloadConfig();
         reloadMessages();
         registerEvents();
         registerCommands();

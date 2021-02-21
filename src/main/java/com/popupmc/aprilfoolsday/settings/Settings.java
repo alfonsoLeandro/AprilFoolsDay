@@ -2,6 +2,7 @@ package com.popupmc.aprilfoolsday.settings;
 
 import com.popupmc.aprilfoolsday.AprilFoolsDay;
 import com.popupmc.aprilfoolsday.utils.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.WorldType;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -81,7 +82,8 @@ public class Settings implements Reloadable {
         this.corruptPositionYChance = config.getInt("corrupt position.chance");
         this.corruptPositionYAmount = config.getInt("corrupt position.amount")*4096;
         String delayString = config.getString("status message.delay");
-        this.statusMessageDelayTicks = delayString == null ? 0 : TimeUnit.getTicks(Integer.parseInt(delayString.substring(delayString.length())), delayString.charAt(delayString.length()-1));
+        Bukkit.getConsoleSender().sendMessage(delayString+"");
+        this.statusMessageDelayTicks = delayString == null || delayString.equalsIgnoreCase("") ? 0 : TimeUnit.getTicks(Integer.parseInt(delayString.substring(delayString.length())), delayString.charAt(delayString.length()-1));
         this.entityId = config.getInt("single-entity.entity");
         this.entityChance = config.getInt("single-entity.entity");
 

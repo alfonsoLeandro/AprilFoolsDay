@@ -1,11 +1,12 @@
 # Plugin prefix for in-game and console logs/messages.
 prefix: '&f[&6AprilFools&f]'
 
-# When the player has the joke enabled, send a resourcepack?
+# When the player has the joke enabled, send a resource pack?
 # sha1 is optional but recommended for security, optimization, and bandwidth
-resource-pack:
-  url: ""
-  sha1: ""
+# Uncomment the next 3 lines to use a custom resource pack
+#resource-pack:
+#  url: ""
+#  sha1: ""
 
 # Joke Message
 # Tells players the joke is enabled or disabled and that they can toggle with a command

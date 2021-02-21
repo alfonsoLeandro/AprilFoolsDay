@@ -33,7 +33,7 @@ public class PlayerJoin implements Listener {
         if(isNotNullOrEmpty(resourcePackUrl)){
             String sha1 = settings.getResourcePackSha1();
             if(isNotNullOrEmpty(sha1)){
-                player.setResourcePack(resourcePackUrl, sha1);
+                player.setResourcePack(resourcePackUrl, sha1.getBytes());
             }else{
                 player.setResourcePack(resourcePackUrl);
             }
