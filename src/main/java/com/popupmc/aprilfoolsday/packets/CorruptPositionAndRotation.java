@@ -26,7 +26,7 @@ public class CorruptPositionAndRotation extends PacketAdapter {
         Settings settings = ((AprilFoolsDay)plugin).getSettings();
 
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(player.getName())
+        if(!ToggleJokeCommand.getJokeStatus(player)
         || settings.isCorruptPositionDisabled()
         || settings.isCorruptRotationDisabled()) return;
 

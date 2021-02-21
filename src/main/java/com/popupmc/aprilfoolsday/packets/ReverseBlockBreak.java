@@ -16,7 +16,7 @@ public class ReverseBlockBreak extends PacketAdapter {
     public void onPacketSending(PacketEvent event) {
 
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer())
         || ((AprilFoolsDay)plugin).getSettings().isReverseBlockBreakDisabled()) return;
 
         // Get Packet

@@ -26,7 +26,7 @@ public class CorruptRotation extends PacketAdapter {
         Settings settings = ((AprilFoolsDay)plugin).getSettings();
 
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(player.getName())
+        if(!ToggleJokeCommand.getJokeStatus(player)
         || settings.isCorruptRotationDisabled()) return;
 
         PacketContainer packet = event.getPacket();

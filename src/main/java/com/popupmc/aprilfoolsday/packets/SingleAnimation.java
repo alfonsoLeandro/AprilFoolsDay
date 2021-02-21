@@ -20,7 +20,7 @@ public class SingleAnimation extends PacketAdapter {
         Settings settings = ((AprilFoolsDay)plugin).getSettings();
 
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(player.getName())
+        if(!ToggleJokeCommand.getJokeStatus(player)
         || settings.isSingleAnimationDisabled()) return;
 
         PacketContainer packet = event.getPacket();

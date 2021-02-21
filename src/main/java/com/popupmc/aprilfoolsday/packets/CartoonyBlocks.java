@@ -18,7 +18,7 @@ public class CartoonyBlocks extends PacketAdapter {
     @Override
     public void onPacketSending(PacketEvent event) {
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())) return;
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer())) return;
 
         // I have no ##@@### idea
         // Me neither

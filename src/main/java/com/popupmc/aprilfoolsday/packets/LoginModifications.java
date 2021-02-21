@@ -16,7 +16,7 @@ public class LoginModifications extends PacketAdapter {
     @Override
     public void onPacketSending(PacketEvent event) {
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())) return;
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer())) return;
 
         PacketContainer packet = event.getPacket();
         Settings settings = ((AprilFoolsDay)plugin).getSettings();

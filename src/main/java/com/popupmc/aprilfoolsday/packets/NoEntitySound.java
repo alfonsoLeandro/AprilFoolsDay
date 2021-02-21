@@ -14,7 +14,7 @@ public class NoEntitySound extends PacketAdapter {
     @Override
     public void onPacketSending(PacketEvent event) {
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer())
         || ((AprilFoolsDay)plugin).getSettings().isNoEntitySoundDisabled()) return;
 
         event.setCancelled(true);

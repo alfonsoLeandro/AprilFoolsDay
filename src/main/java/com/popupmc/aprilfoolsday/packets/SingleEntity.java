@@ -24,7 +24,7 @@ public class SingleEntity extends PacketAdapter {
         if(event.isCancelled()) return;
 
         // If disabled for this player do nothing, stop here
-        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer().getName())) return;
+        if(!ToggleJokeCommand.getJokeStatus(event.getPlayer())) return;
 
         Settings settings = ((AprilFoolsDay)plugin).getSettings();
 
